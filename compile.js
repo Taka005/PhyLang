@@ -19,16 +19,18 @@ if(!fs.existsSync(FilePath)){
   process.exit();
 }
 
-const FileDate = fs.readFileSync(FilePath);
+const FileDate = fs.readFileSync(FilePath,"UTF-8");
 
 console.log("\x1b[34mファイルのチェック完了\x1b[39m");
 console.log("\x1b[34mコンパイル中...\x1b[39m");
 
 try{
   const ScriptDate = fs.readdirSync("./converter")
-    .reduce((script,FileName)=>require(`../converter/${FileName}`)(script));
+    .reduce((script,FileName)=>require(`./converter/${FileName}`)(script),FileDate);
 
   fs.writeFileSync("build.js",ScriptDate);
+  
+  console.log("\x1b[32m正常にコンパイルされました\x1b[39m");
 }catch(error){
   console.log(`\x1b[31mコンパイルエラー: ファイルを正常にコンパイルできませんでした\n\n${error}\x1b[39m`);
   process.exit();
