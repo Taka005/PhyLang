@@ -1,0 +1,22 @@
+{
+  "name": "jas",
+  "version": "1.0.0",
+  "description": "JavaScript For Japanese",
+  "main": "compile.js",
+  "scripts": {
+    "test": "node compile.js test.jas"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Taka005/JAS.git"
+  },
+  "keywords": [
+    "JAS"
+  ],
+  "author": "Taka005",
+  "license": "GNU-3.0",
+  "bugs": {
+    "url": "https://github.com/Taka005/JAS/issues"
+  },
+  "homepage": "https://github.com/Taka005/JAS#readme"
+}
