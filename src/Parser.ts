@@ -1,22 +1,14 @@
 import { FUNCTION, CONSTANT, CHARACTER } from "./Literal";
-import { concatRegExps } from "./utils";
 
 class Parser{
   public static tokenize(source: string): string[]{
-    const splitRegexp: RegExp = concatRegExps([
-      this.toRegexp(FUNCTION),
-      this.toRegexp(CONSTANT),
-      this.toRegexp(CHARACTER),
-      new RegExp(/(".*")|\n/)
-    ]);
+    const splitRegexp = new RegExp(`(".*"|${FUNCTION.join("|")}|${CONSTANT.join("|")}|${CHARACTER.join("|")})|\\n`);
 
-    const tokens: string[] = source.split(splitRegexp);
-  
-    return tokens.filter(token=>token);
-  }
+    const tokens: string[] = source
+      .split(splitRegexp)
+      .filter(token=>token);
 
-  private static toRegexp(literal: string[]): RegExp{
-    return new RegExp(`(${literal.join("|")})`);
+    return tokens;
   }
 }
 
