@@ -12,7 +12,7 @@ class Tree{
   }
 
   public build(){
-    return this.continue(";");
+    return this.continue();
   }
 
   private brackets(): string | null{
@@ -31,7 +31,7 @@ class Tree{
   private flag(): Node | null{
     let operator: string | null;
     while(operator = this.check("+","-")){
-      let right =  this.comma();
+      let right: Node | null =  this.comma();
 
       if(operator === "+") return right;
 
@@ -39,7 +39,7 @@ class Tree{
         left: { left: "0", operator: "-", right: "1" },
         operator: "*",
         right
-      };
+      }
     }
 
     return this.call();
