@@ -11,6 +11,9 @@ If(Get(num) = 100,Set(num,300))Else(Set(num,400));
 
 If(
     Equal(Get(num),100),
-    Set(num,300)
+    (
+        Set(num,300),
+        Set(num,200)
+    )
 );
 

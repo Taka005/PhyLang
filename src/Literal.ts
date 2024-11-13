@@ -25,4 +25,16 @@ const CONSTANT = [
   "False"
 ];
 
-export { FUNCTION, CONSTANT };
+const CHARACTER= [
+  ";",
+  "(",
+  ")",
+  "+",
+  "-",
+  "/",
+  "*",
+  "**",
+  ","
+];
+
+export { FUNCTION, CONSTANT, CHARACTER };
