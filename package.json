@@ -1,22 +1,20 @@
 {
-  "name": "jas",
+  "name": "phylang",
   "version": "1.0.0",
-  "description": "JavaScript For Japanese",
+  "description": "PhyLang for JavaScript",
   "main": "compile.js",
   "scripts": {
     "test": "node compile.js test.jas"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Taka005/JAS.git"
+    "url": "git+https://github.com/Taka005/PhyLang.git"
   },
-  "keywords": [
-    "JAS"
-  ],
+  "keywords": [],
   "author": "Taka005",
   "license": "GNU-3.0",
   "bugs": {
-    "url": "https://github.com/Taka005/JAS/issues"
+    "url": "https://github.com/Taka005/PhyLang/issues"
   },
-  "homepage": "https://github.com/Taka005/JAS#readme"
+  "homepage": "https://github.com/Taka005/PhyLang#readme"
 }

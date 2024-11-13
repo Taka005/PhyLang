@@ -1,2 +1,2 @@
-# JAS
-JavaScript for Japanese
+# PhyLang
+物理エンジン用スクリプト

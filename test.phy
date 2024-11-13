@@ -1,0 +1,16 @@
+Define(value,"123");
+Define(num,100);
+
+Set(value,"456");
+
+Get(value);
+
+If(Get(value) = "123",Set(num,200));
+
+If(Get(num) = 100,Set(num,300))Else(Set(num,400));
+
+If(
+    Equal(Get(num),100),
+    Set(num,300)
+);
+
