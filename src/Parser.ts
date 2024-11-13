@@ -2,7 +2,7 @@ import { FUNCTION, CONSTANT, CHARACTER } from "./Literal";
 import { concatRegExps } from "./utils";
 
 class Parser{
-  static public tokenize(source: string): string[]{
+  public static tokenize(source: string): string[]{
     const splitRegexp: RegExp = concatRegExps([
       this.toRegexp(FUNCTION),
       this.toRegexp(CONSTANT),
@@ -15,7 +15,7 @@ class Parser{
     return tokens.filter(token=>token);
   }
 
-  static private toRegexp(literal: string[]): RegExp{
+  private static toRegexp(literal: string[]): RegExp{
     return new RegExp(`(${literal.join("|")})`);
   }
 }

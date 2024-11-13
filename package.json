@@ -2,9 +2,10 @@
   "name": "phylang",
   "version": "1.0.0",
   "description": "PhyLang for JavaScript",
-  "main": "compile.js",
+  "main": "./src/index.ts",
   "scripts": {
-    "test": "node compile.js test.jas"
+    "build": "npx tsc",
+    "bundle": "esbuild --bundle --minify --outfile=./bin/phylang.js ./src/index.js"
   },
   "repository": {
     "type": "git",
@@ -16,5 +17,12 @@
   "bugs": {
     "url": "https://github.com/Taka005/PhyLang/issues"
   },
-  "homepage": "https://github.com/Taka005/PhyLang#readme"
+  "homepage": "https://github.com/Taka005/PhyLang#readme",
+  "dependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.0"
+  }
 }
