@@ -1,4 +1,8 @@
-
+type Node = {
+  left: Node | string | null;
+  operator: string;
+  right: Node | string | null;
+};
 
 class Tree{
   private tokens: string[];
@@ -11,32 +15,51 @@ class Tree{
     return this.continue(";");
   }
 
-  private call(){
-    let left = this.get();
-
+  flag(): Node | null{
     let operator;
+    while(operator = this.check("+","-")){
+      let right =  this.continue(",");
+
+      if(operator == "+") return right;
+  
+	    return {
+        left: { left: "0", operator: "-", right: "1" },
+        operator: "*",
+        right
+      };
+    }
+
+    return this.call();
+  }
+
+  private call(): Node | null{
+    const left: string | null = this.get();
+
+    let operator: string | null;
+    let node: Node | null = null;
     while(operator = this.check("(")){
-      let right = this.continue(",");
+      const right: Node | null = this.continue(",");
 
       operator += this.isValid(this.check(")"));
 
-      left = { left, operator, right };
+      node = { left, operator, right };
     }
 
-    return left;
+    return node;
   }
 
-  private continue(...literal: string[]){
-    let left = this.call();
+  private continue(...literal: string[]): Node | null{
+    const left: Node | null = this.call();
 
-    let operator;
+    let operator: string | null;
+    let node: Node | null = null;
     while(operator = this.check(...literal)){
-      const right = this.call();
+      const right: Node | null = this.call();
 
-      left = { left, operator, right};
+      node = { left, operator, right};
     }
 
-    return left;
+    return node;
   }
 
   private get(): string | null{
@@ -55,7 +78,7 @@ class Tree{
   }
 
   private isValid(value: string | number | null): string | number{
-    if(value === null) throw new Error(`Invalid Syntax: ${value}`);
+    if(value === null) throw new Error(`無効な構文です`);
 
     return value;
   }
