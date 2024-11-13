@@ -1,20 +1,24 @@
 
 
 class Tree{
-  private tokens: (string | number)[];
+  private tokens: string[];
 
-  constructor(tokens: (string | number)[]){
+  constructor(tokens: string[]){
     this.tokens = tokens;
+  }
+
+  public build(){
+    return this.continue(";");
   }
 
   private call(){
     let left = this.get();
 
     let operator;
-    while((operator = this.check(this.tokens,"("))){
-      let right = this.continue();
+    while(operator = this.check("(")){
+      let right = this.continue(",");
 
-      op += this.isValid(this.check(this.tokens,")"));
+      operator += this.isValid(this.check(")"));
 
       left = { left, operator, right };
     }
@@ -22,32 +26,32 @@ class Tree{
     return left;
   }
 
-  private continue(){
-    this.call();
+  private continue(...literal: string[]){
+    let left = this.call();
 
     let operator;
-    while((operator = accept(tokens,";"))){
-      const right = call();
+    while(operator = this.check(...literal)){
+      const right = this.call();
 
-      left = {left,op,right};
+      left = { left, operator, right};
     }
 
     return left;
   }
 
-  private get(): string | number | null{
+  private get(): string | null{
     if(this.tokens.length === 0) return null;
 
-    return this.tokens.shift();
+    return this.tokens.shift() || null;
   }
 
-  private check(...cs): string | number | null{
+  private check(...literal: string[]): string | null{
     if(
       this.tokens.length === 0||
-      !cs.includes(this.tokens[0])
+      !literal.includes(this.tokens[0])
     ) return null;
    
-    return this.tokens.shift();
+    return this.tokens.shift() || null;
   }
 
   private isValid(value: string | number | null): string | number{

@@ -6,10 +6,11 @@ Define(num,100);
 
 Set(value,"456");
 
-Get(value);`;
+Get(value);
+`;
 
 const tokens = Parser.tokenize(str);
 console.log(tokens);
 
 const tree = new Tree(tokens);
-console.log(tree.call());
+console.log(JSON.stringify(tree.build(),null,"  "));

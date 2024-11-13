@@ -1,7 +1,7 @@
 import { FUNCTION, CONSTANT, CHARACTER } from "./Literal";
 
 class Parser{
-  public static tokenize(source: string): (string | number)[]{
+  public static tokenize(source: string): string[]{
     const splitRegexp = new RegExp(`(".*"|${FUNCTION.join("|")}|${CONSTANT.join("|")}|${CHARACTER.join("|")})|\\n`);
 
     const tokens: string[] = source
@@ -9,10 +9,6 @@ class Parser{
       .filter(token=>token);
 
     return tokens;
-  }
-
-  public static toAST(){
-    const ast = {}; 
   }
 }
 
