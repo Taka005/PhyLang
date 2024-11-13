@@ -15,13 +15,26 @@ class Tree{
     return this.continue(";");
   }
 
-  flag(): Node | null{
-    let operator;
-    while(operator = this.check("+","-")){
-      let right =  this.continue(",");
+  private brackets(): string | null{
+    let operator: string | null;
+    while(operator = this.check("(")){
+        const right = this.comma();
 
-      if(operator == "+") return right;
-  
+        operator += this.isValid(this.check(")"));
+
+        return right;
+    }
+
+    return this.get();
+  }
+
+  private flag(): Node | null{
+    let operator: string | null;
+    while(operator = this.check("+","-")){
+      let right =  this.comma();
+
+      if(operator === "+") return right;
+
 	    return {
         left: { left: "0", operator: "-", right: "1" },
         operator: "*",
@@ -32,13 +45,55 @@ class Tree{
     return this.call();
   }
 
+  private mul(): Node | null{
+    const left: Node | null = this.flag();
+
+    let operator: string | null;
+    let node: Node | null = null;
+    while(operator = this.check("*","/")){
+      const right: Node | null = this.flag();
+
+      node = { left, operator, right };
+    }
+
+    return node;
+  }
+
+  private plus(): Node | null{
+    const left: Node | null = this.mul();
+
+    let operator: string | null;
+    let node: Node | null = null;
+    while(operator = this.check("+","-")){
+      const right: Node | null = this.mul();
+
+      node = { left, operator, right };
+    }
+
+    return node;
+  }
+
+  private comma(): Node | null{
+    const left: Node | null = this.plus();
+
+    let operator: string | null;
+    let node: Node | null = null;
+    while(operator = this.check(",")){
+      const right: Node | null = this.plus();
+
+      node = { left, operator, right};
+    }
+
+    return node;
+  }
+
   private call(): Node | null{
-    const left: string | null = this.get();
+    const left: string | null = this.brackets();
 
     let operator: string | null;
     let node: Node | null = null;
     while(operator = this.check("(")){
-      const right: Node | null = this.continue(",");
+      const right: Node | null = this.comma();
 
       operator += this.isValid(this.check(")"));
 
@@ -48,15 +103,15 @@ class Tree{
     return node;
   }
 
-  private continue(...literal: string[]): Node | null{
-    const left: Node | null = this.call();
+  private continue(): Node | null{
+    const left: Node | null = this.comma();
 
     let operator: string | null;
     let node: Node | null = null;
-    while(operator = this.check(...literal)){
-      const right: Node | null = this.call();
+    while(operator = this.check(";")){
+      const right: Node | null = this.comma();
 
-      node = { left, operator, right};
+      node = { left, operator, right };
     }
 
     return node;
@@ -73,11 +128,11 @@ class Tree{
       this.tokens.length === 0||
       !literal.includes(this.tokens[0])
     ) return null;
-   
+
     return this.tokens.shift() || null;
   }
 
-  private isValid(value: string | number | null): string | number{
+  private isValid(value: string | null): string{
     if(value === null) throw new Error(`無効な構文です`);
 
     return value;
