@@ -5,4 +5,13 @@ function concatRegExps( regExps:RegExp[], flags?:string ): RegExp{
 	);
 }
 
-export { concatRegExps };
+function accept(tokens,...cs): string | number | null{
+  if(
+    tokens.length === 0||
+    !cs.includes(tokens[0])
+  ) return null;
+ 
+  return tokens.shift();
+}
+
+export { concatRegExps, accept };

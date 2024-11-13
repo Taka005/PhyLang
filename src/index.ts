@@ -1,4 +1,5 @@
 import { Parser } from "./Parser";
+import { Tree } from "./Tree";
 
 const str = `Define(value,"123");
 Define(num,100);
@@ -7,4 +8,8 @@ Set(value,"456");
 
 Get(value);`;
 
-console.log(Parser.tokenize(str));
+const tokens = Parser.tokenize(str);
+console.log(tokens);
+
+const tree = new Tree(tokens);
+console.log(tree.call());
