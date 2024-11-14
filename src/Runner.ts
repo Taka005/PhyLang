@@ -82,6 +82,8 @@ class Runner{
     }else{
       throw new Error(`構文エラー: ${node.operator}は利用できない演算子です`);
     }
+
+    return null;
   }
 }
 
