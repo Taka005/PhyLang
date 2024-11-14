@@ -1,56 +1,149 @@
+//値の定義
+Define(value,123);
+Define(num,100);
+
+//値の設定
+Set(value,456);
+
+//値の計算
+Console(Equal(2,1));
+Console(Get(value));
+Console(10-Get(value));
+Console(MathPI);
+Console(-1*31/21*(10-2));
+Console(Sin(0.5*MathPI));
+
 [
-  'Define', '(',   'value', ',',
-  '"123"',  ')',   ';',     'Define',
-  '(',      'num', ',',     '100',
-  ')',      ';',   'Set',   '(',
-  'value',  ',',   '456',   '+',
-  '10',     '*',   '(',     '10',
-  '-',      '7',   ')',     ')',
-  ';',      'Get', '(',     'value',
-  ')',      ';'
+  'Define',  '(',       'value', ',',       '123',     ')',
+  ';',       'Define',  '(',     'num',     ',',       '100',
+  ')',       ';',       'Set',   '(',       'value',   ',',
+  '456',     ')',       ';',     'Console', '(',       'Equal',
+  '(',       '2',       ',',     '1',       ')',       ')',
+  ';',       'Console', '(',     'Get',     '(',       'value',
+  ')',       ')',       ';',     'Console', '(',       '10',
+  '-',       'Get',     '(',     'value',   ')',       ')',
+  ';',       'Console', '(',     'MathPI',  ')',       ';',
+  'Console', '(',       '-',     '1',       '*',       '31',
+  '/',       '21',      '*',     '(',       '10',      '-',
+  '2',       ')',       ')',     ';',       'Console', '(',
+  'Sin',     '(',       '0.5',   '*',       'MathPI',  ')',
+  ')',       ';'
 ]
+
 {
   "left": {
     "left": {
       "left": {
         "left": {
-          "left": "Define",
-          "operator": "()",
+          "left": {
+            "left": {
+              "left": {
+                "left": {
+                  "left": {
+                    "left": "Define",
+                    "operator": "()",
+                    "right": {
+                      "left": "value",
+                      "operator": ",",
+                      "right": "123"
+                    }
+                  },
+                  "operator": ";",
+                  "right": {
+                    "left": "Define",
+                    "operator": "()",
+                    "right": {
+                      "left": "num",
+                      "operator": ",",
+                      "right": "100"
+                    }
+                  }
+                },
+                "operator": ";",
+                "right": {
+                  "left": "Set",
+                  "operator": "()",
+                  "right": {
+                    "left": "value",
+                    "operator": ",",
+                    "right": "456"
+                  }
+                }
+              },
+              "operator": ";",
+              "right": {
+                "left": "Console",
+                "operator": "()",
+                "right": {
+                  "left": "Equal",
+                  "operator": "()",
+                  "right": {
+                    "left": "2",
+                    "operator": ",",
+                    "right": "1"
+                  }
+                }
+              }
+            },
+            "operator": ";",
+            "right": {
+              "left": "Console",
+              "operator": "()",
+              "right": {
+                "left": "Get",
+                "operator": "()",
+                "right": "value"
+              }
+            }
+          },
+          "operator": ";",
           "right": {
-            "left": "value",
-            "operator": ",",
-            "right": "\"123\""
+            "left": "Console",
+            "operator": "()",
+            "right": {
+              "left": "10",
+              "operator": "-",
+              "right": {
+                "left": "Get",
+                "operator": "()",
+                "right": "value"
+              }
+            }
           }
         },
         "operator": ";",
         "right": {
-          "left": "Define",
+          "left": "Console",
           "operator": "()",
-          "right": {
-            "left": "num",
-            "operator": ",",
-            "right": "100"
-          }
+          "right": "MathPI"
         }
       },
       "operator": ";",
       "right": {
-        "left": "Set",
+        "left": "Console",
         "operator": "()",
         "right": {
-          "left": "value",
-          "operator": ",",
+          "left": {
+            "left": "0",
+            "operator": "-",
+            "right": "1"
+          },
+          "operator": "*",
           "right": {
-            "left": "456",
-            "operator": "+",
+            "left": {
+              "left": {
+                "left": "1",
+                "operator": "*",
+                "right": "31"
+              },
+              "operator": "/",
+              "right": "21"
+            },
+            "operator": "*",
             "right": {
               "left": "10",
-              "operator": "*",
-              "right": {
-                "left": "10",
-                "operator": "-",
-                "right": "7"
-              }
+              "operator": "-",
+              "right": "2"
             }
           }
         }
@@ -58,11 +151,26 @@
     },
     "operator": ";",
     "right": {
-      "left": "Get",
+      "left": "Console",
       "operator": "()",
-      "right": "value"
+      "right": {
+        "left": "Sin",
+        "operator": "()",
+        "right": {
+          "left": "0.5",
+          "operator": "*",
+          "right": "MathPI"
+        }
+      }
     }
   },
   "operator": ";",
   "right": null
 }
+
+0
+456
+-446
+3.141592653589793
+-11.80952380952381
+1

@@ -13,7 +13,10 @@ Set(value,456);
 //値の計算
 Console(Equal(2,1));
 Console(Get(value));
-Console(MathE);
+Console(10-Get(value));
+Console(MathPI);
+Console(-1*31/21*(10-2));
+Console(Sin(0.5*MathPI));
 `;
 
 const tokens = Parser.tokenize(str);
@@ -26,5 +29,3 @@ const runner = new Runner();
 console.log(JSON.stringify(ast,null,"  "));
 
 runner.run(ast);
-
-console.log(runner.base);
