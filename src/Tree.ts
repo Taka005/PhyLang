@@ -15,23 +15,23 @@ class Tree{
     return this.continue();
   }
 
-  private brackets(): string | null{
+  private bracket(): Node | string | null{
     let operator: string | null;
     while(operator = this.check("(")){
-        const right = this.comma();
+      const right: Node | string | null = this.comma();
 
-        operator += this.isValid(this.check(")"));
+      operator += this.isValid(this.check(")"));
 
-        return right;
+      return right;
     }
 
     return this.get();
   }
 
-  private flag(): Node | null{
+  private flag(): Node | string | null{
     let operator: string | null;
     while(operator = this.check("+","-")){
-      let right: Node | null =  this.comma();
+      let right: Node | string | null =  this.comma();
 
       if(operator === "+") return right;
 
@@ -45,76 +45,71 @@ class Tree{
     return this.call();
   }
 
-  private mul(): Node | null{
-    const left: Node | null = this.flag();
+  private mul(): Node | string | null{
+    let left: Node | string | null = this.flag();
 
     let operator: string | null;
-    let node: Node | null = null;
     while(operator = this.check("*","/")){
-      const right: Node | null = this.flag();
+      const right: Node | string | null = this.flag();
 
-      node = { left, operator, right };
+      left = { left, operator, right };
     }
 
-    return node;
+    return left;
   }
 
-  private plus(): Node | null{
-    const left: Node | null = this.mul();
+  private plus(): Node | string | null{
+    let left: Node | string | null = this.mul();
 
     let operator: string | null;
-    let node: Node | null = null;
     while(operator = this.check("+","-")){
-      const right: Node | null = this.mul();
+      const right: Node | string | null = this.mul();
 
-      node = { left, operator, right };
+      left = { left, operator, right };
     }
 
-    return node;
+    return left;
   }
 
-  private comma(): Node | null{
-    const left: Node | null = this.plus();
+  private comma(): Node | string | null{
+    let left: Node | string | null = this.plus();
 
     let operator: string | null;
-    let node: Node | null = null;
     while(operator = this.check(",")){
-      const right: Node | null = this.plus();
+      const right: Node | string | null = this.plus();
 
-      node = { left, operator, right};
+      left = { left, operator, right};
     }
 
-    return node;
+    return left;
   }
 
-  private call(): Node | null{
-    const left: string | null = this.brackets();
+  private continue(): Node | string | null{
+    let left: Node | string | null = this.comma();
 
     let operator: string | null;
-    let node: Node | null = null;
+    while(operator = this.check(";")){
+      const right: Node | string | null = this.comma();
+
+      left = { left, operator, right };
+    }
+
+    return left;
+  }
+
+  private call(): Node | string | null{
+    let left: Node | string | null = this.bracket();
+
+    let operator: string | null;
     while(operator = this.check("(")){
-      const right: Node | null = this.comma();
+      let right: Node | string | null = this.comma();
 
       operator += this.isValid(this.check(")"));
 
-      node = { left, operator, right };
+      left = { left, operator, right };
     }
 
-    return node;
-  }
-
-  private continue(): Node | null{
-    const left: Node | null = this.comma();
-
-    let operator: string | null;
-    let node: Node | null = null;
-    while(operator = this.check(";")){
-      const right: Node | null = this.comma();
-
-      node = { left, operator, right };
-    }
-
-    return node;
+    return left;
   }
 
   private get(): string | null{
