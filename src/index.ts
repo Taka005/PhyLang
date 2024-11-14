@@ -1,5 +1,3 @@
-import { Parser } from "./Parser";
-import { Tree } from "./Tree";
 import { Runner } from "./Runner";
 
 const str = `
@@ -19,13 +17,7 @@ Console(-1*31/21*(10-2));
 Console(Sin(0.5*MathPI));
 `;
 
-const tokens = Parser.tokenize(str);
-console.log(tokens);
-
-const tree = new Tree(tokens);
-const ast = tree.build();
 const runner = new Runner();
 
-console.log(JSON.stringify(ast,null,"  "));
-
-runner.run(ast);
+runner.build(str);
+runner.start();

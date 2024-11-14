@@ -20,10 +20,15 @@ class Runner{
   }
 
   public build(source: string): void{
+    console.log(source);
+
     const tokens = Parser.tokenize(source);
+    console.log(tokens);
 
     this.tree = new Tree(tokens);
+
     this.ast = this.tree.build();
+    console.log(JSON.stringify(this.ast,null,"  "));
   }
 
   public start(): void{
