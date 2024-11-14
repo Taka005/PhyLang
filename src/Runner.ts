@@ -2,11 +2,11 @@ import { Tree, Node } from "./Tree";
 import { Parser } from "./Parser";
 
 class Runner{
-  public base: Object = {};
+  public base: { [key: string]: string | number } = {};
  
   public tree: Tree | null = null;
 
-  public ast: Node | null = null;
+  public ast: Node | string | null = null;
 
   constructor(base = {}){
     Object.assign(this.base,base);
@@ -23,15 +23,13 @@ class Runner{
     this.run(this.ast);
   }
 
-  public run(node: Node): any{
+  public run(node: Node | string | null): any{
     if(!node) return null;
 
-    if(!node.operator){
+    if(typeof node === "string"){
       if(node.startsWith("\"")) return node.substr(1,node.length-2);
 
-      if(!isNaN(node[0])) return Number(node);
-
-      if(this.base.hasOwnProperty(node)) return this.base[node];
+      if(!isNaN(node as unknown as number)) return Number(node);
 
       return node;
     }else if(node.operator === ";"){

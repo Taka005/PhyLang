@@ -15,7 +15,8 @@ const FUNCTION = [
   "More",
   "MoreEqual",
   "Less",
-  "LessEqual"
+  "LessEqual",
+  "Console"
 ];
 
 const CONSTANT = [
