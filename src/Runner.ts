@@ -150,37 +150,45 @@ class Runner{
       }else if(func === "MoreEqual"){
         if(args.length > 2) throw new Error("構文エラー: MoreEqualに3個以上のオプションは設定できません");
 
-        return this.run(args[0] >= args[1] ? 1 : 0;
+        return this.run(args[0]) >= this.run(args[1]) ? 1 : 0;
       }else if(func === "Less"){
         if(args.length > 2) throw new Error("構文エラー: Lessに3個以上のオプションは設定できません");
 
-        return args[0] < args[1] ? 1 : 0;
+        return this.run(args[0]) < this.run(args[1]) ? 1 : 0;
       }else if(func === "LessEqual"){
         if(args.length > 2) throw new Error("構文エラー: LessEqualに3個以上のオプションは設定できません");
 
-        return args[0] <= args[1] ? 1 : 0;
+        return this.run(args[0]) <= this.run(args[1]) ? 1 : 0;
       }else if(func === "If"){
         if(args.length > 2) throw new Error("構文エラー: Ifに3個以上のオプションは設定できません");
 
-
+        if(this.run(args[0])){
+          this.run(args[1]);
+        }
       }else if(func === "Sin"){
         if(args.length > 1) throw new Error("構文エラー: Sinに3個以上のオプションは設定できません");
 
-        if(isNaN(args[0])) return "None";
+        const value = this.run(args[0]);
 
-        return Math.sin(args[0]);
+        if(isNaN(value)) return "None";
+
+        return Math.sin(value);
       }else if(func === "Cos"){
         if(args.length > 1) throw new Error("構文エラー: Cosに3個以上のオプションは設定できません");
 
-        if(isNaN(args[0])) return "None";
+        const value = this.run(args[0]);
 
-        return Math.cos(args[0]);
+        if(isNaN(value)) return "None";
+
+        return Math.cos(value);
       }else if(func === "Tan"){
         if(args.length > 1) throw new Error("構文エラー: Tanに3個以上のオプションは設定できません");
 
-        if(isNaN(args[0])) return "None";
+        const value = this.run(args[0]);
 
-        return Math.tan(args[0]);
+        if(isNaN(value)) return "None";
+
+        return Math.tan(value);
       }else{
         throw new Error(`定義エラー: ${func}関数は存在しません`);
       }
