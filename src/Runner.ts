@@ -50,10 +50,7 @@ class Runner{
       this.run(node.left);
       this.run(node.right);
     }else if(node.operator === ","){
-      return [
-        this.run(node.left),
-        this.run(node.right)
-      ].flat();
+      return [ node.left, node.right ];
     }else if(node.operator === "+"){
       return this.run(node.left) + this.run(node.right);
     }else if(node.operator === "-"){
@@ -92,51 +89,68 @@ class Runner{
       return left%right;
     }else if(node.operator === "()"){
       const func: string = this.run(node.left);
-      const args = [this.run(node.right)].flat();
+      const args = this.run(node.right);
 
       if(func === "Define"){
         if(args.length > 2) throw new Error("構文エラー: Defineに3個以上のオプションは設定できません");
-        if(this.base.hasOwnProperty(args[0])) throw new Error(`定義エラー: ${args[0]}は既に定義されています`);
 
-        this.base[args[0]] = args[1];
+        const key = this.run(args[0]);
+        const value = this.run(args[1]);
+        if(this.base.hasOwnProperty(key)) throw new Error(`定義エラー: ${key}は既に定義されています`);
+
+        this.base[key] = value;
       }else if(func === "Set"){
         if(args.length > 2) throw new Error("構文エラー: Setに3個以上のオプションは設定できません");
-        if(!this.base.hasOwnProperty(args[0])) throw new Error(`定義エラー: ${args[0]}は定義されていません`);
 
-        this.base[args[0]] = args[1];
+        const key = this.run(args[0]);
+        const value = this.run(args[1]);
+        if(!this.base.hasOwnProperty(key)) throw new Error(`定義エラー: ${key}は定義されていません`);
+
+        this.base[key] = value;
       }else if(func === "Console"){
         if(args.length > 1) throw new Error("構文エラー: Consoleに2個以上のオプションは設定できません");
 
-        console.log(args[0]);
+        const value = this.run(args[0]);
+
+        console.log(value);
       }else if(func === "Get"){
         if(args.length > 1) throw new Error("構文エラー: Getに2個以上のオプションは設定できません");
-        if(!this.base.hasOwnProperty(args[0])) throw new Error(`定義エラー: ${args[0]}は定義されていません`);
+
+        const key = this.run(args[0]);
+
+        if(!this.base.hasOwnProperty(key)) throw new Error(`定義エラー: ${key}は定義されていません`);
       
-        return this.base[args[0]];
+        return this.base[key];
       }else if(func === "Equal"){
         if(args.length > 2) throw new Error("構文エラー: Equalに3個以上のオプションは設定できません");
 
-        return args[0] === args[1] ? 1 : 0;
+        const left = this.run(args[0]);
+        const right = this.run(args[1]);
+
+        return left === right ? 1 : 0;
       }else if(func === "NoEqual"){
         if(args.length > 2) throw new Error("構文エラー: NoEqualに3個以上のオプションは設定できません");
+
+        const left = this.run(args[0]);
+        const right = this.run(args[1]);
 
         return args[0] !== args[1] ? 1 : 0;
       }else if(func === "And"){
         if(args.length > 2) throw new Error("構文エラー: Andに3個以上のオプションは設定できません");
 
-        return args[0] && args[1] ? 1 : 0;
+        return this.run(args[0]) && this.run(args[1]) ? 1 : 0;
       }else if(func === "Or"){
         if(args.length > 2) throw new Error("構文エラー: Orに3個以上のオプションは設定できません");
 
-        return args[0] || args[1] ? 1 : 0;
+        return this.run(args[0]) || this.run(args[1]) ? 1 : 0;
       }else if(func === "More"){
         if(args.length > 2) throw new Error("構文エラー: Moreに3個以上のオプションは設定できません");
 
-        return args[0] > args[1] ? 1 : 0;
+        return this.run(args[0]) > this.run(args[1]) ? 1 : 0;
       }else if(func === "MoreEqual"){
         if(args.length > 2) throw new Error("構文エラー: MoreEqualに3個以上のオプションは設定できません");
 
-        return args[0] >= args[1] ? 1 : 0;
+        return this.run(args[0] >= args[1] ? 1 : 0;
       }else if(func === "Less"){
         if(args.length > 2) throw new Error("構文エラー: Lessに3個以上のオプションは設定できません");
 
@@ -145,6 +159,10 @@ class Runner{
         if(args.length > 2) throw new Error("構文エラー: LessEqualに3個以上のオプションは設定できません");
 
         return args[0] <= args[1] ? 1 : 0;
+      }else if(func === "If"){
+        if(args.length > 2) throw new Error("構文エラー: Ifに3個以上のオプションは設定できません");
+
+
       }else if(func === "Sin"){
         if(args.length > 1) throw new Error("構文エラー: Sinに3個以上のオプションは設定できません");
 
