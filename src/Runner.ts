@@ -19,30 +19,39 @@ class Runner{
     this.ast = this.tree.build();
   }
 
-  public run(node: Node): void{
-    if(!node.operator){
-      if(node[0] == '"') return node.substr(1,node.length-2);
+  public start(): void{
+    this.run(this.ast);
+  }
 
-      if(isNaN(node[0]))return Number(node);
+  public run(node: Node): Node{
+    if(!node.operator){
+      if(node.startsWith("\"")) return node.substr(1,node.length-2);
+
+      if(isNaN(node[0])) return Number(node);
 
       if(this.base.hasOwnProperty(node)) return this.base[node];
 
       return node;
     }else if(node.operator == ";"){
-      run(node.left);
-      run(node.right);
+      this.run(node.left);
+      this.run(node.right);
     }else if(node.operator == ","){
-      return [run(node.left),run(node.right)].flat();
+      return [
+        this.run(node.left),
+        this.run(node.right)
+      ].flat();
     }else if(node.operator == "()"){
-      const func = run(node.left);
-      if(func == "print"){
-        var args = [run(a.right)].flat().join("");
-        console.log(args);
+      const func = this.run(node.left);
+      if(func == "Define"){
+        const args = [this.run(a.right)].flat();
+        if(args.length > 2) throw new Error("構文エラー: Defineに3個以上のオプションは設定できません");
+
+        this.base[args[0]] = args[1];
       }else{
-        error("未実装の関数呼び出し",func);
+        throw new Error(`定義エラー: ${func}関数は存在しません`);
       }
     }else{
-      error("未実装の演算子",a.op);
+      throw new Error(`構文エラー: ${node.operator}は利用できない演算子です`);
     }
   }
 }
