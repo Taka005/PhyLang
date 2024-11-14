@@ -23,27 +23,30 @@ class Runner{
     this.run(this.ast);
   }
 
-  public run(node: Node): Node{
+  public run(node: Node): any{
+    if(!node) return null;
+
     if(!node.operator){
       if(node.startsWith("\"")) return node.substr(1,node.length-2);
 
-      if(isNaN(node[0])) return Number(node);
+      if(!isNaN(node[0])) return Number(node);
 
       if(this.base.hasOwnProperty(node)) return this.base[node];
 
       return node;
-    }else if(node.operator == ";"){
+    }else if(node.operator === ";"){
       this.run(node.left);
       this.run(node.right);
-    }else if(node.operator == ","){
+    }else if(node.operator === ","){
       return [
         this.run(node.left),
         this.run(node.right)
       ].flat();
-    }else if(node.operator == "()"){
+    }else if(node.operator === "()"){
       const func = this.run(node.left);
-      if(func == "Define"){
-        const args = [this.run(a.right)].flat();
+
+      if(func === "Define"){
+        const args = [this.run(node.right)].flat();
         if(args.length > 2) throw new Error("構文エラー: Defineに3個以上のオプションは設定できません");
 
         this.base[args[0]] = args[1];

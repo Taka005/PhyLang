@@ -4,10 +4,6 @@ import { Runner } from "./Runner";
 
 const str = `Define(value,"123");
 Define(num,100);
-
-Set(value,456+10*(10-7));
-
-Get(value);
 `;
 
 const tokens = Parser.tokenize(str);
