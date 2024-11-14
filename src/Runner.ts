@@ -2,16 +2,18 @@ import { Tree, Node } from "./Tree";
 import { Parser } from "./Parser";
 
 class Runner{
-  public base: { [key: string]: string | number } = {
-    MathPi: Math.PI,
-    MathE: Math.E,
-    True: 1,
-    False: 0
-  };
- 
+  public base: { [key: string]: string | number } = {};
+
   public tree: Tree | null = null;
 
   public ast: Node | string | null = null;
+
+  private readonly constant: { [key: string]: string | number } = {
+    MathPI: Math.PI,
+    MathE: Math.E,
+    True: 1,
+    False: 0
+  }
 
   constructor(base = {}){
     Object.assign(this.base,base);
@@ -36,7 +38,7 @@ class Runner{
 
       if(!isNaN(node as unknown as number)) return Number(node);
 
-      if(this.base.hasOwnProperty(node)) return this.base[node];
+      if(this.constant.hasOwnProperty(node)) return this.constant[node];
 
       return node;
     }else if(node.operator === ";"){
@@ -53,6 +55,12 @@ class Runner{
 
       if(func === "Define"){
         if(args.length > 2) throw new Error("構文エラー: Defineに3個以上のオプションは設定できません");
+        if(this.base.hasOwnProperty(args[0])) throw new Error(`定義エラー: ${args[0]}は既に定義されています`);
+
+        this.base[args[0]] = args[1];
+      }else if(func === "Set"){
+        if(args.length > 2) throw new Error("構文エラー: Setに3個以上のオプションは設定できません");
+        if(!this.base.hasOwnProperty(args[0])) throw new Error(`定義エラー: ${args[0]}は定義されていません`);
 
         this.base[args[0]] = args[1];
       }else if(func === "Console"){
@@ -61,9 +69,13 @@ class Runner{
         console.log(args[0]);
       }else if(func === "Get"){
         if(args.length > 1) throw new Error("構文エラー: Getに2個以上のオプションは設定できません");
-        if(!this.base.hasOwnProperty(node)) throw new Error(`定義エラー: ${value}は定義されていません`);
+        if(!this.base.hasOwnProperty(args[0])) throw new Error(`定義エラー: ${args[0]}は定義されていません`);
       
         return this.base[args[0]];
+      }else if(func === "Equal"){
+        if(args.length > 2) throw new Error("構文エラー: Equalに3個以上のオプションは設定できません");
+
+        return args[0] === args[1] ? 1 : 0;
       }else{
         throw new Error(`定義エラー: ${func}関数は存在しません`);
       }

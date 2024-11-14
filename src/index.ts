@@ -3,9 +3,12 @@ import { Tree } from "./Tree";
 import { Runner } from "./Runner";
 
 const str = `
-Define(value,"123");
+Define(value,123);
 Define(num,100);
+Set(value,456);
+Console(Equal(2,1));
 Console(Get(value));
+Console(MathE);
 `;
 
 const tokens = Parser.tokenize(str);
