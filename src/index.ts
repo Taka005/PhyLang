@@ -2,8 +2,10 @@ import { Parser } from "./Parser";
 import { Tree } from "./Tree";
 import { Runner } from "./Runner";
 
-const str = `Define(value,"123");
+const str = `
+Define(value,"123");
 Define(num,100);
+Console(Get(value));
 `;
 
 const tokens = Parser.tokenize(str);
