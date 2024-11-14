@@ -11,10 +11,6 @@ class Tree{
     this.tokens = tokens;
   }
 
-  public build(){
-    return this.continue();
-  }
-
   private bracket(): Node | string | null{
     let operator: string | null;
     while(operator = this.check("(")){
@@ -84,7 +80,7 @@ class Tree{
     return left;
   }
 
-  private continue(): Node | string | null{
+  public build(): Node | string | null{
     let left: Node | string | null = this.comma();
 
     let operator: string | null;
@@ -134,4 +130,4 @@ class Tree{
   }
 }
 
-export { Tree };
+export { Tree, Node };
