@@ -1,0 +1,68 @@
+[
+  'Define', '(',   'value', ',',
+  '"123"',  ')',   ';',     'Define',
+  '(',      'num', ',',     '100',
+  ')',      ';',   'Set',   '(',
+  'value',  ',',   '456',   '+',
+  '10',     '*',   '(',     '10',
+  '-',      '7',   ')',     ')',
+  ';',      'Get', '(',     'value',
+  ')',      ';'
+]
+{
+  "left": {
+    "left": {
+      "left": {
+        "left": {
+          "left": "Define",
+          "operator": "()",
+          "right": {
+            "left": "value",
+            "operator": ",",
+            "right": "\"123\""
+          }
+        },
+        "operator": ";",
+        "right": {
+          "left": "Define",
+          "operator": "()",
+          "right": {
+            "left": "num",
+            "operator": ",",
+            "right": "100"
+          }
+        }
+      },
+      "operator": ";",
+      "right": {
+        "left": "Set",
+        "operator": "()",
+        "right": {
+          "left": "value",
+          "operator": ",",
+          "right": {
+            "left": "456",
+            "operator": "+",
+            "right": {
+              "left": "10",
+              "operator": "*",
+              "right": {
+                "left": "10",
+                "operator": "-",
+                "right": "7"
+              }
+            }
+          }
+        }
+      }
+    },
+    "operator": ";",
+    "right": {
+      "left": "Get",
+      "operator": "()",
+      "right": "value"
+    }
+  },
+  "operator": ";",
+  "right": null
+}
