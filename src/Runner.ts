@@ -49,6 +49,42 @@ class Runner{
         this.run(node.left),
         this.run(node.right)
       ].flat();
+    }else if(node.operator === "+"){
+      return this.run(node.left) + this.run(node.right);
+    }else if(node.operator === "-"){
+      const left = this.run(node.left);
+      const right = this.run(node.right);
+      if(isNaN(left)||isNaN(right)) return "None";
+
+      return left - right;
+    }else if(node.operator === "*"){
+      const left = this.run(node.left);
+      const right = this.run(node.right);
+      if(isNaN(left)||isNaN(right)) return "None";
+
+      return left*right;
+    }else if(node.operator === "/"){
+      const left = this.run(node.left);
+      const right = this.run(node.right);
+      if(isNaN(left)||isNaN(right)) return "None";
+
+      if(right === 0) return "None";
+
+      return left/right;
+    }else if(node.operator === "^"){
+      const left = this.run(node.left);
+      const right = this.run(node.right);
+      if(isNaN(left)||isNaN(right)) return "None";
+
+      return left**right;
+    }else if(node.operator === "%"){
+      const left = this.run(node.left);
+      const right = this.run(node.right);
+      if(isNaN(left)||isNaN(right)) return "None";
+
+      if(right === 0) return "None";
+
+      return left%right;
     }else if(node.operator === "()"){
       const func: string = this.run(node.left);
       const args = [this.run(node.right)].flat();
@@ -76,6 +112,52 @@ class Runner{
         if(args.length > 2) throw new Error("構文エラー: Equalに3個以上のオプションは設定できません");
 
         return args[0] === args[1] ? 1 : 0;
+      }else if(func === "NoEqual"){
+        if(args.length > 2) throw new Error("構文エラー: NoEqualに3個以上のオプションは設定できません");
+
+        return args[0] !== args[1] ? 1 : 0;
+      }else if(func === "And"){
+        if(args.length > 2) throw new Error("構文エラー: Andに3個以上のオプションは設定できません");
+
+        return args[0] && args[1] ? 1 : 0;
+      }else if(func === "Or"){
+        if(args.length > 2) throw new Error("構文エラー: Orに3個以上のオプションは設定できません");
+
+        return args[0] || args[1] ? 1 : 0;
+      }else if(func === "More"){
+        if(args.length > 2) throw new Error("構文エラー: Moreに3個以上のオプションは設定できません");
+
+        return args[0] > args[1] ? 1 : 0;
+      }else if(func === "MoreEqual"){
+        if(args.length > 2) throw new Error("構文エラー: MoreEqualに3個以上のオプションは設定できません");
+
+        return args[0] >= args[1] ? 1 : 0;
+      }else if(func === "Less"){
+        if(args.length > 2) throw new Error("構文エラー: Lessに3個以上のオプションは設定できません");
+
+        return args[0] < args[1] ? 1 : 0;
+      }else if(func === "LessEqual"){
+        if(args.length > 2) throw new Error("構文エラー: LessEqualに3個以上のオプションは設定できません");
+
+        return args[0] <= args[1] ? 1 : 0;
+      }else if(func === "Sin"){
+        if(args.length > 1) throw new Error("構文エラー: Sinに3個以上のオプションは設定できません");
+
+        if(isNaN(args[0])) return "None";
+
+        return Math.sin(args[0]);
+      }else if(func === "Cos"){
+        if(args.length > 1) throw new Error("構文エラー: Cosに3個以上のオプションは設定できません");
+
+        if(isNaN(args[0])) return "None";
+
+        return Math.cos(args[0]);
+      }else if(func === "Tan"){
+        if(args.length > 1) throw new Error("構文エラー: Tanに3個以上のオプションは設定できません");
+
+        if(isNaN(args[0])) return "None";
+
+        return Math.tan(args[0]);
       }else{
         throw new Error(`定義エラー: ${func}関数は存在しません`);
       }
