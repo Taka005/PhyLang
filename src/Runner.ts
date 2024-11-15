@@ -1,5 +1,5 @@
 import { Tree, Node } from "./Tree";
-import { Parser } from "./Parser";
+import { FUNCTION, CONSTANT, CHARACTER } from "./Literal";
 
 class Runner{
   public base: { [key: string]: string | number } = {};
@@ -12,7 +12,8 @@ class Runner{
     MathPI: Math.PI,
     MathE: Math.E,
     True: 1,
-    False: 0
+    False: 0,
+    None: "None"
   }
 
   constructor(base = {}){
@@ -22,7 +23,7 @@ class Runner{
   public build(source: string): void{
     console.log(source);
 
-    const tokens = Parser.tokenize(source);
+    const tokens = this.tokenize(source);
     console.log(tokens);
 
     this.tree = new Tree(tokens);
@@ -106,7 +107,7 @@ class Runner{
         const value = this.checkRun(args[1]);
         if(!this.base.hasOwnProperty(key)) throw new Error(`定義エラー: ${key}は定義されていません`);
 
-        this.base[key] = String(value);
+        this.base[key] = value;
       }else if(func === "Console"){
         if(args.length > 1) throw new Error("構文エラー: Consoleに2個以上のオプションは設定できません");
 
@@ -205,6 +206,16 @@ class Runner{
     }else{
       return node;
     }
+  }
+
+  public tokenize(source: string): string[]{
+    const splitRegexp = new RegExp(`\\/\\/.*$|(".*"|${FUNCTION.join("|")}|${CONSTANT.join("|")}|${CHARACTER.join("|")})|\\n`,"m");
+
+    const tokens: string[] = source
+      .split(splitRegexp)
+      .filter(token=>token);
+
+    return tokens;
   }
 }
 

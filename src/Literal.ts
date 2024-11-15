@@ -23,7 +23,8 @@ const CONSTANT = [
   "MathPi",
   "MathE",
   "True",
-  "False"
+  "False",
+  "None"
 ];
 
 const CHARACTER= [

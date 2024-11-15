@@ -9,8 +9,12 @@ Define(PI,"MathPI");
 //値の設定
 Set(value,456);
 
+//If
+If(Equal(Get(num),100),Set(num,200));
+
 //値の計算
 Console(Get(PI));
+Console(Get(num));
 Console(Equal(2,1));
 Console(Get(value));
 Console(10-Get(value));
