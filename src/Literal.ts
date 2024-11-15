@@ -20,7 +20,7 @@ const FUNCTION = [
 ];
 
 const CONSTANT = [
-  "MathPi",
+  "MathPI",
   "MathE",
   "True",
   "False",
