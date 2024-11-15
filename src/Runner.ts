@@ -35,8 +35,8 @@ class Runner{
     this.run(this.ast);
   }
 
-  public run(node: Node | string | number | null): any{
-    if(!node&&node !== 0) return "None";
+  public run(node: Node | string | null): any{
+    if(!node) return "None";
 
     if(typeof node === "string"){
       if(node.startsWith("\"")) return node.substr(1,node.length-2);
@@ -45,8 +45,6 @@ class Runner{
 
       if(this.constant.hasOwnProperty(node)) return this.constant[node];
 
-      return node;
-    }else if(typeof node === "number"){
       return node;
     }else if(node.operator === ";"){
       this.run(node.left);
@@ -96,29 +94,29 @@ class Runner{
       if(func === "Define"){
         if(args.length > 2) throw new Error("構文エラー: Defineに3個以上のオプションは設定できません");
 
-        const key = this.run(args[0]);
-        const value = this.run(args[1]);
+        const key = this.checkRun(args[0]);
+        const value = this.checkRun(args[1]);
         if(this.base.hasOwnProperty(key)) throw new Error(`定義エラー: ${key}は既に定義されています`);
 
         this.base[key] = value;
       }else if(func === "Set"){
         if(args.length > 2) throw new Error("構文エラー: Setに3個以上のオプションは設定できません");
 
-        const key = this.run(args[0]);
-        const value = this.run(args[1]);
+        const key = this.checkRun(args[0]);
+        const value = this.checkRun(args[1]);
         if(!this.base.hasOwnProperty(key)) throw new Error(`定義エラー: ${key}は定義されていません`);
 
         this.base[key] = String(value);
       }else if(func === "Console"){
         if(args.length > 1) throw new Error("構文エラー: Consoleに2個以上のオプションは設定できません");
 
-        const value = this.run(args[0]);
+        const value = this.checkRun(args[0]);
 
         console.log(value);
       }else if(func === "Get"){
         if(args.length > 1) throw new Error("構文エラー: Getに2個以上のオプションは設定できません");
 
-        const key = this.run(args[0]);
+        const key = this.checkRun(args[0]);
 
         if(!this.base.hasOwnProperty(key)) throw new Error(`定義エラー: ${key}は定義されていません`);
       
@@ -126,51 +124,51 @@ class Runner{
       }else if(func === "Equal"){
         if(args.length > 2) throw new Error("構文エラー: Equalに3個以上のオプションは設定できません");
 
-        const left = this.run(args[0]);
-        const right = this.run(args[1]);
+        const left = this.checkRun(args[0]);
+        const right = this.checkRun(args[1]);
 
         return left === right ? 1 : 0;
       }else if(func === "NoEqual"){
         if(args.length > 2) throw new Error("構文エラー: NoEqualに3個以上のオプションは設定できません");
 
-        const left = this.run(args[0]);
-        const right = this.run(args[1]);
+        const left = this.checkRun(args[0]);
+        const right = this.checkRun(args[1]);
 
         return left !== right ? 1 : 0;
       }else if(func === "And"){
         if(args.length > 2) throw new Error("構文エラー: Andに3個以上のオプションは設定できません");
 
-        return this.run(args[0]) && this.run(args[1]) ? 1 : 0;
+        return this.checkRun(args[0]) && this.checkRun(args[1]) ? 1 : 0;
       }else if(func === "Or"){
         if(args.length > 2) throw new Error("構文エラー: Orに3個以上のオプションは設定できません");
 
-        return this.run(args[0]) || this.run(args[1]) ? 1 : 0;
+        return this.checkRun(args[0]) || this.checkRun(args[1]) ? 1 : 0;
       }else if(func === "More"){
         if(args.length > 2) throw new Error("構文エラー: Moreに3個以上のオプションは設定できません");
 
-        return this.run(args[0]) > this.run(args[1]) ? 1 : 0;
+        return this.checkRun(args[0]) > this.checkRun(args[1]) ? 1 : 0;
       }else if(func === "MoreEqual"){
         if(args.length > 2) throw new Error("構文エラー: MoreEqualに3個以上のオプションは設定できません");
 
-        return this.run(args[0]) >= this.run(args[1]) ? 1 : 0;
+        return this.checkRun(args[0]) >= this.checkRun(args[1]) ? 1 : 0;
       }else if(func === "Less"){
         if(args.length > 2) throw new Error("構文エラー: Lessに3個以上のオプションは設定できません");
 
-        return this.run(args[0]) < this.run(args[1]) ? 1 : 0;
+        return this.checkRun(args[0]) < this.checkRun(args[1]) ? 1 : 0;
       }else if(func === "LessEqual"){
         if(args.length > 2) throw new Error("構文エラー: LessEqualに3個以上のオプションは設定できません");
 
-        return this.run(args[0]) <= this.run(args[1]) ? 1 : 0;
+        return this.checkRun(args[0]) <= this.checkRun(args[1]) ? 1 : 0;
       }else if(func === "If"){
         if(args.length > 2) throw new Error("構文エラー: Ifに3個以上のオプションは設定できません");
 
-        if(this.run(args[0])){
-          this.run(args[1]);
+        if(this.checkRun(args[0])){
+          this.checkRun(args[1]);
         }
       }else if(func === "Sin"){
         if(args.length > 1) throw new Error("構文エラー: Sinに3個以上のオプションは設定できません");
 
-        const value = this.run(args[0]);
+        const value = this.checkRun(args[0]);
 
         if(isNaN(value)) return "None";
 
@@ -178,7 +176,7 @@ class Runner{
       }else if(func === "Cos"){
         if(args.length > 1) throw new Error("構文エラー: Cosに3個以上のオプションは設定できません");
 
-        const value = this.run(args[0]);
+        const value = this.checkRun(args[0]);
 
         if(isNaN(value)) return "None";
 
@@ -186,7 +184,7 @@ class Runner{
       }else if(func === "Tan"){
         if(args.length > 1) throw new Error("構文エラー: Tanに3個以上のオプションは設定できません");
 
-        const value = this.run(args[0]);
+        const value = this.checkRun(args[0]);
 
         if(isNaN(value)) return "None";
 
@@ -199,6 +197,14 @@ class Runner{
     }
 
     return "None";
+  }
+
+  private checkRun(node: Node | string | null): any{
+    if(typeof node === "object"){
+      return this.run(node);
+    }else{
+      return node;
+    }
   }
 }
 
