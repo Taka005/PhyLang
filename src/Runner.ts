@@ -35,8 +35,8 @@ class Runner{
     this.run(this.ast);
   }
 
-  public run(node: Node | string | null): any{
-    if(!node) return null;
+  public run(node: Node | string | number | null): any{
+    if(!node&&node !== 0) return "None";
 
     if(typeof node === "string"){
       if(node.startsWith("\"")) return node.substr(1,node.length-2);
@@ -45,6 +45,8 @@ class Runner{
 
       if(this.constant.hasOwnProperty(node)) return this.constant[node];
 
+      return node;
+    }else if(typeof node === "number"){
       return node;
     }else if(node.operator === ";"){
       this.run(node.left);
@@ -89,7 +91,7 @@ class Runner{
       return left%right;
     }else if(node.operator === "()"){
       const func: string = this.run(node.left);
-      const args = this.run(node.right);
+      const args = [this.run(node.right)].flat();
 
       if(func === "Define"){
         if(args.length > 2) throw new Error("構文エラー: Defineに3個以上のオプションは設定できません");
@@ -106,7 +108,7 @@ class Runner{
         const value = this.run(args[1]);
         if(!this.base.hasOwnProperty(key)) throw new Error(`定義エラー: ${key}は定義されていません`);
 
-        this.base[key] = value;
+        this.base[key] = String(value);
       }else if(func === "Console"){
         if(args.length > 1) throw new Error("構文エラー: Consoleに2個以上のオプションは設定できません");
 
@@ -134,7 +136,7 @@ class Runner{
         const left = this.run(args[0]);
         const right = this.run(args[1]);
 
-        return args[0] !== args[1] ? 1 : 0;
+        return left !== right ? 1 : 0;
       }else if(func === "And"){
         if(args.length > 2) throw new Error("構文エラー: Andに3個以上のオプションは設定できません");
 
@@ -196,7 +198,7 @@ class Runner{
       throw new Error(`構文エラー: ${node.operator}は利用できない演算子です`);
     }
 
-    return null;
+    return "None";
   }
 }
 
