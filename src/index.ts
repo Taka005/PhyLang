@@ -10,7 +10,10 @@ Define(PI,"MathPI");
 Set(value,456);
 
 //If
-If(Equal(Get(num),100),Set(num,200));
+If(
+    Equal(Get(num),100),
+    Set(num,200)
+);
 
 //値の計算
 Console(Get(PI));

@@ -213,7 +213,8 @@ class Runner{
 
     const tokens: string[] = source
       .split(splitRegexp)
-      .filter(token=>token);
+      .filter(token=>token)
+      .filter(token=>token.trim() !== "");
 
     return tokens;
   }
